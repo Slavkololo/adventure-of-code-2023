@@ -3,7 +3,7 @@ use std::fs;
 
 fn main() {
     let contents = fs::read_to_string("./input.txt").unwrap();
-    let splited = contents.split("\n");
+    let splited = contents.lines();
     let mut sum = 0;
 
     for line in splited {

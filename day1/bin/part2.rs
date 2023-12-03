@@ -27,7 +27,7 @@ fn find_digit(subsequence: &[u8]) -> Option<u32> {
 
 fn main() {
     let contents = fs::read_to_string("./input.txt").unwrap();
-    let splited = contents.split("\n");
+    let splited = contents.lines();
     let mut sum = 0;
 
     for line in splited {
