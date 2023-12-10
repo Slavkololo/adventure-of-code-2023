@@ -11,18 +11,10 @@ fn find_subsequence<'a>(haystack: &'a [u8], needle: &'a [u8]) -> Option<&'a [u8]
 }
 
 fn find_digit(subsequence: &[u8]) -> Option<u32> {
-    match subsequence {
-        s if find_subsequence(s, NUM_ARRAY[0]).is_some() => Some(1),
-        s if find_subsequence(s, NUM_ARRAY[1]).is_some() => Some(2),
-        s if find_subsequence(s, NUM_ARRAY[2]).is_some() => Some(3),
-        s if find_subsequence(s, NUM_ARRAY[3]).is_some() => Some(4),
-        s if find_subsequence(s, NUM_ARRAY[4]).is_some() => Some(5),
-        s if find_subsequence(s, NUM_ARRAY[5]).is_some() => Some(6),
-        s if find_subsequence(s, NUM_ARRAY[6]).is_some() => Some(7),
-        s if find_subsequence(s, NUM_ARRAY[7]).is_some() => Some(8),
-        s if find_subsequence(s, NUM_ARRAY[8]).is_some() => Some(9),
-        _ => None,
-    }
+    NUM_ARRAY
+        .iter()
+        .position(|&x| find_subsequence(subsequence, x).is_some())
+        .map(|x| (x + 1) as u32)
 }
 
 fn main() {
@@ -34,10 +26,8 @@ fn main() {
         let line = line.as_bytes();
         let mut first_int = 0;
         let mut last_int = 0;
-        let mut i = 0;
-        let mut last_i = 0;
 
-        while i < line.len() {
+        for i in 0..line.len() {
             if let Some(num) = find_digit(&line[0..i]) {
                 first_int = num;
                 break;
@@ -45,18 +35,16 @@ fn main() {
                 first_int = num;
                 break;
             }
-            i += 1;
         }
 
-        while last_i < line.len() {
-            if let Some(num) = find_digit(&line[line.len() - 1 - last_i..line.len()]) {
+        for i in 0..line.len() {
+            if let Some(num) = find_digit(&line[line.len() - 1 - i..line.len()]) {
                 last_int = num;
                 break;
-            } else if let Some(num) = (line[line.len() - 1 - last_i] as char).to_digit(10) {
+            } else if let Some(num) = (line[line.len() - 1 - i] as char).to_digit(10) {
                 last_int = num;
                 break;
             }
-            last_i += 1;
         }
 
         sum += first_int * 10 + last_int
